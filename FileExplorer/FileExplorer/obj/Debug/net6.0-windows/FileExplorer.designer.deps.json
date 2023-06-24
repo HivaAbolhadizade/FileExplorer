@@ -213,14 +213,6 @@
           }
         }
       },
-      "System.Data.SQLite.Linq/1.0.118": {
-        "runtime": {
-          "lib/net46/System.Data.SQLite.Linq.dll": {
-            "assemblyVersion": "1.0.118.0",
-            "fileVersion": "1.0.118.0"
-          }
-        }
-      },
       "System.Drawing.Common/4.7.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
@@ -457,13 +449,6 @@
       "sha512": "sha512-6OqO3OA8tej0BidxjYxutfR2HlodiYAA3qU4BtYe/wQdXJ75rumiAr9inYJaxFkwgGb8jW1qyFy953ZFyCOe8A==",
       "path": "system.data.sqlite.ef6/1.0.118",
       "hashPath": "system.data.sqlite.ef6.1.0.118.nupkg.sha512"
-    },
-    "System.Data.SQLite.Linq/1.0.118": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-8cPMubj5tEvoa5Mu/wQaisUnrG9NcoMGFh6B9zDUxnTXuGACi+vwEqIIX+njdFJYPIJrnmGEiHV1T+Lr3YH7jg==",
-      "path": "system.data.sqlite.linq/1.0.118",
-      "hashPath": "system.data.sqlite.linq.1.0.118.nupkg.sha512"
     },
     "System.Drawing.Common/4.7.0": {
       "type": "package",

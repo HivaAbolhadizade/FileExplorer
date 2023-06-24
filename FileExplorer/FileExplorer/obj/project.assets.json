@@ -225,15 +225,6 @@
           "lib/netstandard2.1/System.Data.SQLite.EF6.dll": {}
         }
       },
-      "System.Data.SQLite.Linq/1.0.118": {
-        "type": "package",
-        "compile": {
-          "lib/net46/System.Data.SQLite.Linq.dll": {}
-        },
-        "runtime": {
-          "lib/net46/System.Data.SQLite.Linq.dll": {}
-        }
-      },
       "System.Drawing.Common/4.7.0": {
         "type": "package",
         "dependencies": {
@@ -927,32 +918,6 @@
         "tools/net46/install.ps1"
       ]
     },
-    "System.Data.SQLite.Linq/1.0.118": {
-      "sha512": "8cPMubj5tEvoa5Mu/wQaisUnrG9NcoMGFh6B9zDUxnTXuGACi+vwEqIIX+njdFJYPIJrnmGEiHV1T+Lr3YH7jg==",
-      "type": "package",
-      "path": "system.data.sqlite.linq/1.0.118",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "content/net20/app.config.transform",
-        "content/net20/web.config.transform",
-        "content/net40/app.config.transform",
-        "content/net40/web.config.transform",
-        "content/net45/app.config.transform",
-        "content/net45/web.config.transform",
-        "content/net451/app.config.transform",
-        "content/net451/web.config.transform",
-        "content/net46/app.config.transform",
-        "content/net46/web.config.transform",
-        "lib/net20/System.Data.SQLite.Linq.dll",
-        "lib/net40/System.Data.SQLite.Linq.dll",
-        "lib/net45/System.Data.SQLite.Linq.dll",
-        "lib/net451/System.Data.SQLite.Linq.dll",
-        "lib/net46/System.Data.SQLite.Linq.dll",
-        "system.data.sqlite.linq.1.0.118.nupkg.sha512",
-        "system.data.sqlite.linq.nuspec"
-      ]
-    },
     "System.Drawing.Common/4.7.0": {
       "sha512": "v+XbyYHaZjDfn0ENmJEV1VYLgGgCTx1gnfOBcppowbpOAriglYgGCvFCPr2EEZyBvXlpxbEsTwkOlInl107ahA==",
       "type": "package",
@@ -1188,8 +1153,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "System.Data.SQLite >= 1.0.118",
-      "System.Data.SQLite.Linq >= 1.0.118"
+      "System.Data.SQLite >= 1.0.118"
     ]
   },
   "packageFolders": {
@@ -1239,10 +1203,6 @@
           "System.Data.SQLite": {
             "target": "Package",
             "version": "[1.0.118, )"
-          },
-          "System.Data.SQLite.Linq": {
-            "target": "Package",
-            "version": "[1.0.118, )"
           }
         },
         "imports": [
@@ -1266,17 +1226,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Data.SQLite.Linq 1.0.118' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "System.Data.SQLite.Linq",
-      "targetGraphs": [
-        "net6.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

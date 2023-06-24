@@ -47,10 +47,6 @@
             "System.Data.SQLite": {
               "target": "Package",
               "version": "[1.0.118, )"
-            },
-            "System.Data.SQLite.Linq": {
-              "target": "Package",
-              "version": "[1.0.118, )"
             }
           },
           "imports": [
