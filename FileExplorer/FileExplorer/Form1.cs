@@ -60,7 +60,7 @@ namespace FileExplorer
             // بارگزاری اسامی با parentId خالی در ابتدا
             LoadNamesWithParentId(0);
             dataGridView1.Columns["Id"].Visible = false;
-            //dataGridView1.Columns["IsDirectory"].Visible = false; //db
+            dataGridView1.Columns["IsDirectory"].Visible = false;
             dataGridView1.Columns["parentId"].Visible = false;
 
         }
@@ -129,7 +129,7 @@ namespace FileExplorer
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string existingFileName = row.Cells["Name"].Value.ToString();
-                if (fileName == existingFileName && row.Cells["IsDirectory"].Value.ToString() == "0")
+                if (fileName == existingFileName)
                 {
                     MessageBox.Show("The file name is duplicate.");
                     return;
@@ -175,7 +175,7 @@ namespace FileExplorer
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string existingFileName = row.Cells["Name"].Value.ToString();
-                if (folderName == existingFileName && row.Cells["IsDirectory"].Value.ToString() == "1")
+                if (folderName == existingFileName)
                 {
                     MessageBox.Show("The folder name is duplicate.");
                     return;
