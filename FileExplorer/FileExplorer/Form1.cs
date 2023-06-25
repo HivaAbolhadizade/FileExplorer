@@ -302,6 +302,7 @@ namespace FileExplorer
             {
                 if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == name)
                 {
+                    MessageBox.Show("Im here"); //db
                     int rowParentId = Convert.ToInt32(row.Cells[3].Value);
                     if (rowParentId == parentId)
                     {
@@ -317,9 +318,9 @@ namespace FileExplorer
             {
                 int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
                 int destinationParentId = lastParentId;
-
+                MessageBox.Show(selectedName); //db
                 // شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
-                bool isDuplicateName = CheckDuplicateName(selectedName);
+                bool isDuplicateName = CheckDuplicateName(selectedName);    
                 if (isDuplicateName)
                 {
                     MessageBox.Show("نام تکراری وجود دارد. پیست امکان‌پذیر نیست.");
@@ -356,6 +357,7 @@ namespace FileExplorer
                 {
                     // خواندن Id سلول از DataGridView
                     selectedName = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    MessageBox.Show(selectedName); //db
                     selectedIdcut = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
                     int parentId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
 
