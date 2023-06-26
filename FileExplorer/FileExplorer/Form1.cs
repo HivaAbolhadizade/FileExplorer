@@ -354,7 +354,17 @@ namespace FileExplorer
             }
             if (isCopyMode)
             {
-
+                int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
+                int destinationParentId = lastParentId;
+                bool isDuplicateName = CheckDuplicateName(selectedNamecut);
+                if (isDuplicateName)
+                {
+                    MessageBox.Show("There is a duplicate name. Paste operation is not possible.");
+                    return;
+                }
+                copyToTable(selectedIdcut, destinationParentId);
+                isCopyMode = false;
+                LoadNamesWithParentId(lastParentId);
             }
         }
 
@@ -458,6 +468,72 @@ namespace FileExplorer
                 rowDataList.Add(rowData);
             }
             return rowDataList;
+        }
+        private void copyToTable(int startingID, int copyParent)
+        {
+
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SQLiteTransaction transaction = connection.BeginTransaction())
+                {
+                    // کوئری کپی کردن گره‌ها
+                    string copyQuery = @"
+                WITH RECURSIVE rCTE AS (
+                  SELECT Id,
+                         Name,                                                 
+                         IsDirectory,
+                         parentId,
+                         1 AS Level
+                  FROM Files
+                  WHERE Id = @StartingID
+                  UNION ALL
+                  SELECT D.Id,
+                         D.Name,
+                         D.IsDirectory,
+                         D.parentId,
+                         r.Level+1
+                  FROM Files D
+                  JOIN rCTE r ON D.parentId = r.Id
+                )
+                INSERT INTO Files (Name,IsDirectory,parentId)
+                SELECT CASE r.Id WHEN @StartingID THEN @CopyParent ELSE k.NewID END AS parentId,
+                       r.Name,
+                       r.IsDirectory
+                FROM rCTE r
+                LEFT JOIN (
+                  SELECT Id,
+                         MAX(Level) AS NewID
+                  FROM rCTE
+                  GROUP BY Id
+                ) k ON r.Id = k.Id
+                WHERE r.Level > 1;";
+
+                    using (SQLiteCommand copyCommand = new SQLiteCommand(copyQuery, connection, transaction))
+                    {
+                        copyCommand.Parameters.AddWithValue("@StartingID", startingID);
+                        copyCommand.Parameters.AddWithValue("@CopyParent", copyParent);
+                        copyCommand.ExecuteNonQuery();
+                    }
+
+                    // کوئری بروزرسانی parentId ها
+                    string updateQuery = @"
+                UPDATE Files
+                SET parentId = CASE WHEN parentId = @StartingID THEN @CopyParent ELSE parentId END
+                WHERE Id <> @StartingID;";
+
+                    using (SQLiteCommand updateCommand = new SQLiteCommand(updateQuery, connection, transaction))
+                    {
+                        updateCommand.Parameters.AddWithValue("@StartingID", startingID);
+                        updateCommand.Parameters.AddWithValue("@CopyParent", copyParent);
+                        updateCommand.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+            }
+
         }
     }
 }
