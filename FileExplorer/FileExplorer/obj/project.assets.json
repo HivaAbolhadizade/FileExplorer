@@ -1220,11 +1220,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
+      "projectUniqueName": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
       "projectName": "FileExplorer",
-      "projectPath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
+      "projectPath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
       "packagesPath": "C:\\Users\\Amirhossein\\.nuget\\packages\\",
-      "outputPath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\obj\\",
+      "outputPath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Amirhossein\\AppData\\Roaming\\NuGet\\NuGet.Config",

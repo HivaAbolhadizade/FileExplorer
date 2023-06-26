@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "np8/MbbLDSY7pJ6XKNXL7LVuF1R+ohyku3ei7PbdL5GDr5EW9/4F9GPn3IymWa7JDxSqs+5ep1QNe1cqYRXqvw==",
+  "dgSpecHash": "hPhOv3lk0r9EHLnVmaa1ISyyzdsKj05DfzvMHK6VO6r0jM06ijIfn1FnT1sNbpowSRaeV3MQ628xyCkopZeVSQ==",
   "success": true,
-  "projectFilePath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
+  "projectFilePath": "E:\\University of Kerman\\Term 4\\DS Project\\FileExplorer\\FileExplorer\\FileExplorer\\FileExplorer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Amirhossein\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Amirhossein\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
