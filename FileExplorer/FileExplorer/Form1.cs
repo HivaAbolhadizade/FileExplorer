@@ -332,14 +332,15 @@ namespace FileExplorer
 
         private void btnPaste_Click(object sender, EventArgs e)
         {
+            int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
+            int destinationParentId = lastParentId;
+
             if (isCutMode)
             {
-                int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
-                int destinationParentId = lastParentId;             
 
                 //MessageBox.Show(selectedNamecut); //db
                 // شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
-                bool isDuplicateName = CheckDuplicateName(selectedNamecut);    
+                bool isDuplicateName = CheckDuplicateName(selectedNamecut);
 
                 if (isDuplicateName)
                 {
@@ -352,23 +353,90 @@ namespace FileExplorer
                 isCutMode = false;
                 LoadNamesWithParentId(lastParentId);
             }
+            //MessageBox.Show($"{isCopyMode}"); //db
             if (isCopyMode)
             {
-                int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
-                int destinationParentId = lastParentId;
-                bool isDuplicateName = CheckDuplicateName(selectedNamecut);
-                if (isDuplicateName)
+
+                MessageBox.Show("incopy");
+                Dictionary<int, int> equivalentPairs = new Dictionary<int, int>();
+
+                int currentNodeId = selectedIdcut;
+
+                // folder or not???? extract folder or not
+                int lastrowid = addToTable_copy(selectedNamecut, 1, destinationParentId);
+                equivalentPairs[currentNodeId] = lastrowid; // متناظر سازی نود قبلی با نود ایجاد شده
+
+                //MessageBox.Show(lastrowid.ToString()); //db
+                List<Dictionary<string, object>> nodelist = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> partlist = new List<Dictionary<string, object>>();
+
+                //اضافه کردن ریشه درخت به لیست راس ها
+                foreach (Dictionary<string, object> child in children(currentNodeId))
                 {
-                    MessageBox.Show("There is a duplicate name. Paste operation is not possible.");
-                    return;
+                    nodelist.Add(child);
                 }
-                copyToTable(selectedIdcut, destinationParentId);
+
+                while (nodelist.Count > 0)
+                {
+                    foreach (Dictionary<string, object> node in nodelist)
+                    {
+                        //MessageBox.Show(node["Name"].ToString());
+                        //دریافت ایدی راس دیده شده
+                        currentNodeId = Convert.ToInt32(node["Id"]);
+
+                        //ساخت راس جدید با والد متناظر جدید
+                        lastrowid = addToTable_copy(node["Name"].ToString(), Convert.ToInt32(node["IsDirectory"]), equivalentPairs[Convert.ToInt32(node["parentId"])]);
+
+                        //ایجاد تناظر بین راس ایجاد شده و راس قبلی
+                        equivalentPairs[currentNodeId] = lastrowid;
+
+                        foreach (Dictionary<string, object> child in children(currentNodeId))
+                        {
+                            partlist.Add(child);
+                        }
+
+                    }
+
+                    nodelist.Clear();
+
+                    foreach (Dictionary<string, object> node in partlist)
+                    {
+                        nodelist.Add(node);
+                    }
+                    partlist.Clear();
+                }
+
                 isCopyMode = false;
                 LoadNamesWithParentId(lastParentId);
+
             }
         }
 
-      
+        private int addToTable_copy(string name, int directory, int parentId) // 0 if is file, 1 if is directory
+        {
+            long lastrowid;
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                // اجرای کوئری برای افزودن رکورد جدید
+                string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, @IsDirectory, @ParentId)";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@IsDirectory", directory);
+                command.Parameters.AddWithValue("@ParentId", parentId);
+                command.ExecuteNonQuery();
+
+                command.CommandText = "select last_insert_rowid()";
+                lastrowid = (long)command.ExecuteScalar();
+
+                // بستن اتصال
+                connection.Close();
+            }
+            return (int)lastrowid;
+
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
@@ -436,17 +504,15 @@ namespace FileExplorer
         }
 
         bool isCopyMode = false;
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void copyToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            isCopyMode = true;
-
         }
         private void txtAddFile_TextChanged(object sender, EventArgs e)
         {
 
 
         }
-        private List<Dictionary<string, object>> nodeWithParentId(int id)
+        private List<Dictionary<string, object>> children(int id) // Name, IsDirectory, parentId, Id
         {
             LoadNamesWithParentId(id);
             List<Dictionary<string, object>> rowDataList = new List<Dictionary<string, object>>();
@@ -469,6 +535,13 @@ namespace FileExplorer
             }
             return rowDataList;
         }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isCopyMode = true;
+        }
+
+        /*
         private void copyToTable(int startingID, int copyParent)
         {
 
@@ -535,5 +608,6 @@ namespace FileExplorer
             }
 
         }
+        */
     }
 }

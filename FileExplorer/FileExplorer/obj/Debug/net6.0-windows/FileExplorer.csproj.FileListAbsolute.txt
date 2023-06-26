@@ -98,3 +98,5 @@ E:\University of Kerman\Term 4\DS Project\FileExplorer\FileExplorer\obj\Debug\ne
 E:\University of Kerman\Term 4\DS Project\FileExplorer\FileExplorer\obj\Debug\net6.0-windows\FileExplorer.Properties.Resources.resources
 D:\FileExplorer\FileExplorer\FileExplorer\obj\Debug\net6.0-windows\FileExplorer.Getsize_page.resources
 D:\FileExplorer\FileExplorer\FileExplorer\obj\Debug\net6.0-windows\FileExplorer.Properties.Resources.resources
+E:\University of Kerman\Term 4\DS Project\FileExplorer\FileExplorer\FileExplorer\obj\Debug\net6.0-windows\FileExplorer.Getsize_page.resources
+E:\University of Kerman\Term 4\DS Project\FileExplorer\FileExplorer\FileExplorer\obj\Debug\net6.0-windows\FileExplorer.Properties.Resources.resources
