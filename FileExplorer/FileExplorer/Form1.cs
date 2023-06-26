@@ -16,6 +16,9 @@ namespace FileExplorer
         private List<int> parentIdHistory = new List<int>();
         private int selectedId; // متغیری برای ذخیره آیدی انتخاب شده
         private int parentId;
+        string selectedName;
+        private int selectedParentId;
+        private int selectedIdcut;
 
         private void LoadNamesWithParentId(int parentId)
         {
@@ -33,19 +36,20 @@ namespace FileExplorer
                 string query = "SELECT * FROM Files WHERE parentId = @ParentId";
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@ParentId", parentId);
-
+                
                 // اجرای کوئری و بازیابی نتایج
                 SQLiteDataReader reader = command.ExecuteReader();
-
+               
                 // ایجاد یک DataTable برای ذخیره اسامی
                 DataTable dataTable = new DataTable();
                 dataTable.Load(reader);
 
                 // نمایش اسامی در DataGridView
                 dataGridView1.DataSource = dataTable;
-
+               
                 // بستن اتصال و رفع منابع
-                reader.Close();
+                reader.Close();  
+                
                 connection.Close();
             }
         }
@@ -285,32 +289,6 @@ namespace FileExplorer
                 connection.Close();
             }
         }
-        private bool CheckDuplicateName(string name)
-        {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        private bool CheckDuplicateInTable(string name, int parentId)
-        {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() == name)
-                {
-                    int rowParentId = Convert.ToInt32(row.Cells[3].Value);
-                    if (rowParentId == parentId)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
         private void btnPaste_Click(object sender, EventArgs e)
         {
             if (isCutMode)
@@ -318,7 +296,7 @@ namespace FileExplorer
                 int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
                 int destinationParentId = lastParentId;
 
-                // شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
+                //شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
                 bool isDuplicateName = CheckDuplicateName(selectedName);
                 if (isDuplicateName)
                 {
@@ -326,27 +304,18 @@ namespace FileExplorer
                     return;
                 }
 
-                // شرط دوم: بررسی تکراری بودن اسم در جدول
-                bool isDuplicateInTable = CheckDuplicateInTable(selectedName, destinationParentId);
-                if (isDuplicateInTable)
-                {
-                    MessageBox.Show("نام تکراری وجود دارد. پیست امکان‌پذیر نیست.");
-                    return;
-                }
-
-                // انجام عملیات paste
+                //انجام عملیات paste
                 UpdateParentId(selectedIdcut, destinationParentId);
                 isCutMode = false;
                 LoadNamesWithParentId(lastParentId);
             }
         }
 
-        private int selectedParentId;
-        private int selectedIdcut;
+      
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
-        string selectedName;
+        
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -372,6 +341,31 @@ namespace FileExplorer
                     contextMenuStrip1.Show(dataGridView1, e.Location);
                 }
             }
+        }
+        private bool CheckDuplicateName(string name)
+        {
+            //int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
+            //LoadNamesWithParentId(lastParentId);
+            /*dataGridView1.Refresh()*/;
+            //for(int item = 0;item < dataGridView1.Rows.Count;item++)
+            //{
+            //    string existingFileName = dataGridView1.Rows[item].Cells["Name"].Value.ToString();
+            //    if (name == existingFileName)
+            //    {
+
+            //        return true;
+            //    }
+            //}
+            //return false;
+            foreach(DataGridViewRow row in this.dataGridView1.Rows)
+            {
+                if(name == row.Cells[1].Value.ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
