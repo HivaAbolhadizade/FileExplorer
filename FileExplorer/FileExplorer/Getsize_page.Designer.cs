@@ -34,9 +34,9 @@
             // 
             // size_textbox
             // 
-            this.size_textbox.Location = new System.Drawing.Point(189, 47);
+            this.size_textbox.Location = new System.Drawing.Point(90, 47);
             this.size_textbox.Name = "size_textbox";
-            this.size_textbox.Size = new System.Drawing.Size(106, 27);
+            this.size_textbox.Size = new System.Drawing.Size(205, 27);
             this.size_textbox.TabIndex = 0;
             this.size_textbox.TextChanged += new System.EventHandler(this.size_textbox_TextChanged);
             // 

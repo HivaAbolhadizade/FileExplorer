@@ -173,7 +173,7 @@ namespace FileExplorer
                 txtAddFile.Text = string.Empty;
             }
             //کم کردن حافظه
-            File.WriteAllText(sizePath, (availableSize- fileSize).ToString()); //db
+            //File.WriteAllText(sizePath, (availableSize- fileSize).ToString());
 
             // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
             LoadNamesWithParentId(parentId);
@@ -401,10 +401,40 @@ namespace FileExplorer
         {
             isCutMode=true;
         }
+
         bool isCopyMode = false;
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isCopyMode = true;
+
+        }
+        private void txtAddFile_TextChanged(object sender, EventArgs e)
+        {
+
+
+        }
+        private List<Dictionary<string, object>> nodeWithParentId(int id)
+        {
+            LoadNamesWithParentId(id);
+            List<Dictionary<string, object>> rowDataList = new List<Dictionary<string, object>>();
+
+            for (int rowIndex = 0; rowIndex < dataGridView1.Rows.Count; rowIndex++)
+            {
+                Dictionary<string, object> rowData = new Dictionary<string, object>();
+
+                DataGridViewRow row = dataGridView1.Rows[rowIndex];
+
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                {
+                    string columnName = column.Name;
+                    object columnValue = row.Cells[columnName].Value;
+
+                    rowData[columnName] = columnValue;
+                }
+
+                rowDataList.Add(rowData);
+            }
+            return rowDataList;
         }
     }
 }
