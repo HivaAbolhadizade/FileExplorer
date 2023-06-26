@@ -173,7 +173,7 @@ namespace FileExplorer
                 txtAddFile.Text = string.Empty;
             }
             //کم کردن حافظه
-            File.WriteAllText(sizePath, (availableSize- fileSize).ToString());
+            File.WriteAllText(sizePath, (availableSize- fileSize).ToString()); //db
 
             // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
             LoadNamesWithParentId(parentId);
