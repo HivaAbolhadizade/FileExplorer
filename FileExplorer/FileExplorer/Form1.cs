@@ -304,7 +304,7 @@ namespace FileExplorer
 
                 if (isDuplicateName)
                 {
-                    MessageBox.Show("نام تکراری وجود دارد. پیست امکان‌پذیر نیست.");
+                    MessageBox.Show("There is a duplicate name. Paste operation is not possible.");
                     return;
                 }
 
@@ -312,6 +312,10 @@ namespace FileExplorer
                 UpdateParentId(selectedIdcut, destinationParentId);
                 isCutMode = false;
                 LoadNamesWithParentId(lastParentId);
+            }
+            if (isCopyMode)
+            {
+
             }
         }
 
@@ -329,7 +333,7 @@ namespace FileExplorer
                 {
                     // خواندن Id سلول از DataGridView
                     selectedNamecut = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    MessageBox.Show(selectedName); //db
+                    //MessageBox.Show(selectedName); //db
                     selectedIdcut = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
                     int parentId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
 
@@ -376,10 +380,15 @@ namespace FileExplorer
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
         }
-        bool isCutMode;
+        bool isCutMode = false;
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isCutMode=true;
+        }
+        bool isCopyMode = false;
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isCopyMode = true;
         }
     }
 }
