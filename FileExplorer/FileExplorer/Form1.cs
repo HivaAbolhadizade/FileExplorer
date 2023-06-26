@@ -121,6 +121,25 @@ namespace FileExplorer
                 LoadNamesWithParentId(lastParentId);
             }
         }
+        private void addToTable(string name, int directory,int parentId)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                // اجرای کوئری برای افزودن رکورد جدید
+                string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, @IsDirectory, @ParentId)";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@Name", name);
+                command.Parameters.AddWithValue("@IsDirectory", directory);
+                command.Parameters.AddWithValue("@ParentId", parentId);
+                command.ExecuteNonQuery();
+
+                // بستن اتصال
+                connection.Close();
+            }
+
+        }
         private void btnAddFile_Click(object sender, EventArgs e)
         {
             string fileName = txtAddFile.Text.Trim();
@@ -157,25 +176,27 @@ namespace FileExplorer
             parentId = parentIdHistory[parentIdHistory.Count - 1];
 
             // ایجاد اتصال به پایگاه داده SQLite
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
+            addToTable(fileName,0,parentId);
+            //using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            //{
+            //    connection.Open();
 
-                // اجرای کوئری برای افزودن رکورد جدید
-                string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 0, @ParentId)";
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.Parameters.AddWithValue("@Name", fileName);
-                command.Parameters.AddWithValue("@ParentId", parentId);
-                command.ExecuteNonQuery();
+            //    // اجرای کوئری برای افزودن رکورد جدید
+            //    string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 0, @ParentId)";
+            //    SQLiteCommand command = new SQLiteCommand(query, connection);
+            //    command.Parameters.AddWithValue("@Name", fileName);
+            //    command.Parameters.AddWithValue("@ParentId", parentId);
+            //    command.ExecuteNonQuery();
 
-                // بستن اتصال
-                connection.Close();
-                txtAddFile.Text = string.Empty;
-            }
+            //    // بستن اتصال
+            //    connection.Close();
+            //    txtAddFile.Text = string.Empty;
+            //}
             //کم کردن حافظه
             //File.WriteAllText(sizePath, (availableSize- fileSize).ToString());
 
             // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
+            txtAddFile.Text = string.Empty;
             LoadNamesWithParentId(parentId);
             
         }
@@ -206,23 +227,25 @@ namespace FileExplorer
             int parentId = parentIdHistory[parentIdHistory.Count - 1];
 
             // ایجاد اتصال به پایگاه داده SQLite
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
+            addToTable(folderName,1,parentId);
+            //using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            //{
+            //    connection.Open();
 
-                // اجرای کوئری برای افزودن رکورد جدید
-                string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 1, @ParentId)";
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.Parameters.AddWithValue("@Name", folderName);
-                command.Parameters.AddWithValue("@ParentId", parentId);
-                command.ExecuteNonQuery();
+            //    // اجرای کوئری برای افزودن رکورد جدید
+            //    string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 1, @ParentId)";
+            //    SQLiteCommand command = new SQLiteCommand(query, connection);
+            //    command.Parameters.AddWithValue("@Name", folderName);
+            //    command.Parameters.AddWithValue("@ParentId", parentId);
+            //    command.ExecuteNonQuery();
 
-                // بستن اتصال
-                connection.Close();
-                txtAddFolder.Text = string.Empty;
-            }
+            //    // بستن اتصال
+            //    connection.Close();
+            //    txtAddFolder.Text = string.Empty;
+            //}
 
             // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
+            txtAddFolder.Text = string.Empty;
             LoadNamesWithParentId(parentId);
         }
         
