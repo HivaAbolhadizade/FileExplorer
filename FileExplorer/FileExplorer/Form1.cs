@@ -19,6 +19,7 @@ namespace FileExplorer
         string selectedName;
         private int selectedParentId;
         private int selectedIdcut;
+        private string selectedNamecut;
 
         private void LoadNamesWithParentId(int parentId)
         {
@@ -64,7 +65,7 @@ namespace FileExplorer
             // بارگزاری اسامی با parentId خالی در ابتدا
             LoadNamesWithParentId(0);
             dataGridView1.Columns["Id"].Visible = false;
-            dataGridView1.Columns["IsDirectory"].Visible = false;
+            dataGridView1.Columns["IsDirectory"].Visible = false; //db
             dataGridView1.Columns["parentId"].Visible = false;
 
         }
@@ -133,7 +134,7 @@ namespace FileExplorer
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string existingFileName = row.Cells["Name"].Value.ToString();
-                if (fileName == existingFileName)
+                if (fileName == existingFileName && row.Cells["IsDirectory"].Value.ToString() == "0")
                 {
                     MessageBox.Show("The file name is duplicate.");
                     return;
@@ -179,7 +180,7 @@ namespace FileExplorer
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string existingFileName = row.Cells["Name"].Value.ToString();
-                if (folderName == existingFileName)
+                if (folderName == existingFileName && row.Cells["IsDirectory"].Value.ToString() == "1")
                 {
                     MessageBox.Show("The folder name is duplicate.");
                     return;
@@ -272,7 +273,7 @@ namespace FileExplorer
 
 
         }
-        
+
         private void UpdateParentId(int id, int newParentId)
         {
             // ایجاد اتصال به پایگاه داده SQLite و بروزرسانی parentId رکورد
@@ -289,15 +290,18 @@ namespace FileExplorer
                 connection.Close();
             }
         }
+
         private void btnPaste_Click(object sender, EventArgs e)
         {
             if (isCutMode)
             {
                 int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
-                int destinationParentId = lastParentId;
+                int destinationParentId = lastParentId;             
 
-                //شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
-                bool isDuplicateName = CheckDuplicateName(selectedName);
+                //MessageBox.Show(selectedNamecut); //db
+                // شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
+                bool isDuplicateName = CheckDuplicateName(selectedNamecut);    
+
                 if (isDuplicateName)
                 {
                     MessageBox.Show("نام تکراری وجود دارد. پیست امکان‌پذیر نیست.");
@@ -324,7 +328,8 @@ namespace FileExplorer
                 if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
                     // خواندن Id سلول از DataGridView
-                    selectedName = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    selectedNamecut = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    MessageBox.Show(selectedName); //db
                     selectedIdcut = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
                     int parentId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
 
