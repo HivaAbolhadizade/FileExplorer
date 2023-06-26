@@ -67,6 +67,7 @@
             this.txtAddFile.Name = "txtAddFile";
             this.txtAddFile.Size = new System.Drawing.Size(208, 27);
             this.txtAddFile.TabIndex = 1;
+            this.txtAddFile.TextChanged += new System.EventHandler(this.txtAddFile_TextChanged);
             // 
             // btnAddFile
             // 

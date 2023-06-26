@@ -20,6 +20,8 @@ namespace FileExplorer
         private int selectedParentId;
         private int selectedIdcut;
         private string selectedNamecut;
+        private string sizePath = @"Texts/Size.txt";
+        private int fileSize = 5;
 
         private void LoadNamesWithParentId(int parentId)
         {
@@ -122,6 +124,7 @@ namespace FileExplorer
         private void btnAddFile_Click(object sender, EventArgs e)
         {
             string fileName = txtAddFile.Text.Trim();
+            int availableSize = Convert.ToInt32(File.ReadAllText(sizePath));
 
             // بررسی وجود اسم خالی
             if (string.IsNullOrEmpty(fileName))
@@ -129,6 +132,15 @@ namespace FileExplorer
                 MessageBox.Show("Please enter the file name.");
                 return;
             }
+
+            //بررسی وجود فضای خالی
+            if (availableSize - fileSize < 0)
+            {
+                MessageBox.Show("There is not enough space.");
+                return;
+            }
+            
+
 
             // بررسی تکراری بودن اسم فایل
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -160,9 +172,12 @@ namespace FileExplorer
                 connection.Close();
                 txtAddFile.Text = string.Empty;
             }
+            //کم کردن حافظه
+            File.WriteAllText(sizePath, (availableSize- fileSize).ToString());
 
             // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
             LoadNamesWithParentId(parentId);
+            
         }
 
         private void btnAddFolder_Click(object sender, EventArgs e)
@@ -269,9 +284,10 @@ namespace FileExplorer
                     // بروزرسانی جدول DataGridView
                     LoadNamesWithParentId(parentId);
                 }
+
+                //اضافه کردن حافظه todo
+
             }
-
-
         }
 
         private void UpdateParentId(int id, int newParentId)
