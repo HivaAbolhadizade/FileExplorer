@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>systemfilemanager_94456.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="bin\Debug\net6.0-windows\Texts\FirstRun.txt" />
     <Content Include="bin\Debug\net6.0-windows\Texts\Size.txt" />
+    <Content Include="systemfilemanager_94456.ico" />
   </ItemGroup>
 
   <ItemGroup>
