@@ -34,7 +34,7 @@
             // 
             // size_textbox
             // 
-            this.size_textbox.Location = new System.Drawing.Point(90, 47);
+            this.size_textbox.Location = new System.Drawing.Point(67, 37);
             this.size_textbox.Name = "size_textbox";
             this.size_textbox.Size = new System.Drawing.Size(205, 27);
             this.size_textbox.TabIndex = 0;
@@ -42,9 +42,9 @@
             // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(310, 47);
+            this.btn_save.Location = new System.Drawing.Point(278, 29);
             this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(56, 27);
+            this.btn_save.Size = new System.Drawing.Size(81, 43);
             this.btn_save.TabIndex = 1;
             this.btn_save.Text = "Save";
             this.btn_save.UseVisualStyleBackColor = true;
@@ -54,7 +54,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 124);
+            this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ClientSize = new System.Drawing.Size(398, 102);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.size_textbox);
             this.Name = "Getsize_page";
