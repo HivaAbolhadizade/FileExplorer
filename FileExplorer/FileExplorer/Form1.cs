@@ -624,5 +624,11 @@ namespace FileExplorer
                 LoadNamesWithParentId(parentId);
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(File.ReadAllText(sizePath));
+            return;
+        }
     }
 }

@@ -47,6 +47,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -72,7 +73,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
-            this.dataGridView1.Size = new System.Drawing.Size(403, 297);
+            this.dataGridView1.Size = new System.Drawing.Size(402, 297);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
@@ -81,7 +82,7 @@
             // 
             // txtAddFile
             // 
-            this.txtAddFile.Location = new System.Drawing.Point(493, 224);
+            this.txtAddFile.Location = new System.Drawing.Point(489, 238);
             this.txtAddFile.Name = "txtAddFile";
             this.txtAddFile.Size = new System.Drawing.Size(208, 27);
             this.txtAddFile.TabIndex = 1;
@@ -89,7 +90,7 @@
             // 
             // btnAddFile
             // 
-            this.btnAddFile.Location = new System.Drawing.Point(493, 257);
+            this.btnAddFile.Location = new System.Drawing.Point(489, 271);
             this.btnAddFile.Name = "btnAddFile";
             this.btnAddFile.Size = new System.Drawing.Size(94, 29);
             this.btnAddFile.TabIndex = 2;
@@ -99,7 +100,7 @@
             // 
             // btnAddFolder
             // 
-            this.btnAddFolder.Location = new System.Drawing.Point(493, 174);
+            this.btnAddFolder.Location = new System.Drawing.Point(489, 188);
             this.btnAddFolder.Name = "btnAddFolder";
             this.btnAddFolder.Size = new System.Drawing.Size(94, 29);
             this.btnAddFolder.TabIndex = 4;
@@ -109,7 +110,7 @@
             // 
             // txtAddFolder
             // 
-            this.txtAddFolder.Location = new System.Drawing.Point(493, 141);
+            this.txtAddFolder.Location = new System.Drawing.Point(489, 155);
             this.txtAddFolder.Name = "txtAddFolder";
             this.txtAddFolder.Size = new System.Drawing.Size(208, 27);
             this.txtAddFolder.TabIndex = 3;
@@ -126,7 +127,7 @@
             // 
             // btnPaste
             // 
-            this.btnPaste.Location = new System.Drawing.Point(493, 306);
+            this.btnPaste.Location = new System.Drawing.Point(489, 320);
             this.btnPaste.Name = "btnPaste";
             this.btnPaste.Size = new System.Drawing.Size(94, 29);
             this.btnPaste.TabIndex = 7;
@@ -170,7 +171,7 @@
             // 
             // btnAddPartition
             // 
-            this.btnAddPartition.Location = new System.Drawing.Point(493, 90);
+            this.btnAddPartition.Location = new System.Drawing.Point(489, 104);
             this.btnAddPartition.Name = "btnAddPartition";
             this.btnAddPartition.Size = new System.Drawing.Size(133, 29);
             this.btnAddPartition.TabIndex = 11;
@@ -180,7 +181,7 @@
             // 
             // txtAddPartition
             // 
-            this.txtAddPartition.Location = new System.Drawing.Point(493, 57);
+            this.txtAddPartition.Location = new System.Drawing.Point(489, 71);
             this.txtAddPartition.Name = "txtAddPartition";
             this.txtAddPartition.Size = new System.Drawing.Size(208, 27);
             this.txtAddPartition.TabIndex = 10;
@@ -189,7 +190,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(456, 57);
+            this.pictureBox1.Location = new System.Drawing.Point(452, 71);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(31, 27);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -200,7 +201,7 @@
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.InitialImage")));
-            this.pictureBox2.Location = new System.Drawing.Point(456, 141);
+            this.pictureBox2.Location = new System.Drawing.Point(452, 155);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(31, 27);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -211,7 +212,7 @@
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox3.InitialImage")));
-            this.pictureBox3.Location = new System.Drawing.Point(456, 224);
+            this.pictureBox3.Location = new System.Drawing.Point(452, 238);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(31, 27);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -229,12 +230,24 @@
             this.pictureBox4.TabIndex = 15;
             this.pictureBox4.TabStop = false;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Location = new System.Drawing.Point(647, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(40, 53);
+            this.button1.TabIndex = 16;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(709, 366);
+            this.ClientSize = new System.Drawing.Size(708, 366);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
@@ -286,5 +299,6 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
+        private Button button1;
     }
 }
