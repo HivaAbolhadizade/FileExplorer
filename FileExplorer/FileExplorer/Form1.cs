@@ -301,19 +301,8 @@ namespace FileExplorer
 
                 connection.Close();
             }
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-
-                string deleteQuery = "DELETE FROM Files WHERE parentId = @Id";
-                SQLiteCommand command = new SQLiteCommand(deleteQuery, connection);
-                command.Parameters.AddWithValue("@Id", id);
-
-                command.ExecuteNonQuery();
-
-                connection.Close();
-            }
         }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
@@ -322,14 +311,14 @@ namespace FileExplorer
                 MessageBox.Show("Can not delete nothing!!");
                 return;
             }
-            if (parentId == 0 )
+            if (parentId == 0)
             {
 
                 MessageBox.Show("Can not delete ThisPC.");
                 return;
-                
+
             }
-            
+
             if (lastParentId > 0)
             {
                 if (selectedId != 0 && !string.IsNullOrEmpty(selectedName))
@@ -342,11 +331,41 @@ namespace FileExplorer
                     // نمایش پیغام هشدار و دریافت پاسخ کاربر
                     DialogResult result = MessageBox.Show($"Are you sure you want to delete the '{selectedName}'?",
                         "Warning: Deletion Alert.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
                     if (result == DialogResult.Yes)
                     {
-                        // حذف رکورد با آیدی مشخص شده
-                        DeleteRecord(selectedId);
+                        //گرفتن ایدی راس انتخاب شده
+                        int currentNodeId = selectedId;
+
+                        //ایجاد لیست برای پیمایش زیردرخت
+                        List<Dictionary<string, object>> currentLevel = new List<Dictionary<string, object>>();
+                        List<Dictionary<string, object>> nextLevel = new List<Dictionary<string, object>>();
+
+                        // پیمایش اول سطح
+                        foreach (Dictionary<string, object> child in children(currentNodeId))
+                        {
+                            currentLevel.Add(child);
+                        }
+                        DeleteRecord(currentNodeId);
+
+                        while (currentLevel.Count > 0)
+                        {
+                            foreach (Dictionary<string, object> node in currentLevel)
+                            {
+                                currentNodeId = Convert.ToInt32(node["Id"]);
+                                foreach (Dictionary<string, object> child in children(currentNodeId))
+                                {
+                                    nextLevel.Add(child);
+                                }
+                                DeleteRecord(currentNodeId);
+                            }
+
+                            currentLevel.Clear();
+                            foreach (Dictionary<string, object> node in nextLevel)
+                            {
+                                currentLevel.Add(node);
+                            }
+                            nextLevel.Clear();
+                        }
 
                         // بروزرسانی جدول DataGridView
                         LoadNamesWithParentId(parentId);
