@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Getsize_page));
             this.size_textbox = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,7 +59,9 @@
             this.ClientSize = new System.Drawing.Size(398, 102);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.size_textbox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Getsize_page";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Getsize_page";
             this.Load += new System.EventHandler(this.Getsize_page_Load);
             this.ResumeLayout(false);

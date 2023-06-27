@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.txtAddFile = new System.Windows.Forms.TextBox();
             this.btnAddFile = new System.Windows.Forms.Button();
@@ -42,8 +43,16 @@
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddPartition = new System.Windows.Forms.Button();
             this.txtAddPartition = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -69,11 +78,10 @@
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseClick);
-            
             // 
             // txtAddFile
             // 
-            this.txtAddFile.Location = new System.Drawing.Point(474, 224);
+            this.txtAddFile.Location = new System.Drawing.Point(493, 224);
             this.txtAddFile.Name = "txtAddFile";
             this.txtAddFile.Size = new System.Drawing.Size(208, 27);
             this.txtAddFile.TabIndex = 1;
@@ -81,7 +89,7 @@
             // 
             // btnAddFile
             // 
-            this.btnAddFile.Location = new System.Drawing.Point(474, 257);
+            this.btnAddFile.Location = new System.Drawing.Point(493, 257);
             this.btnAddFile.Name = "btnAddFile";
             this.btnAddFile.Size = new System.Drawing.Size(94, 29);
             this.btnAddFile.TabIndex = 2;
@@ -91,7 +99,7 @@
             // 
             // btnAddFolder
             // 
-            this.btnAddFolder.Location = new System.Drawing.Point(474, 174);
+            this.btnAddFolder.Location = new System.Drawing.Point(493, 174);
             this.btnAddFolder.Name = "btnAddFolder";
             this.btnAddFolder.Size = new System.Drawing.Size(94, 29);
             this.btnAddFolder.TabIndex = 4;
@@ -101,7 +109,7 @@
             // 
             // txtAddFolder
             // 
-            this.txtAddFolder.Location = new System.Drawing.Point(474, 141);
+            this.txtAddFolder.Location = new System.Drawing.Point(493, 141);
             this.txtAddFolder.Name = "txtAddFolder";
             this.txtAddFolder.Size = new System.Drawing.Size(208, 27);
             this.txtAddFolder.TabIndex = 3;
@@ -118,7 +126,7 @@
             // 
             // btnPaste
             // 
-            this.btnPaste.Location = new System.Drawing.Point(474, 326);
+            this.btnPaste.Location = new System.Drawing.Point(493, 306);
             this.btnPaste.Name = "btnPaste";
             this.btnPaste.Size = new System.Drawing.Size(94, 29);
             this.btnPaste.TabIndex = 7;
@@ -162,7 +170,7 @@
             // 
             // btnAddPartition
             // 
-            this.btnAddPartition.Location = new System.Drawing.Point(474, 90);
+            this.btnAddPartition.Location = new System.Drawing.Point(493, 90);
             this.btnAddPartition.Name = "btnAddPartition";
             this.btnAddPartition.Size = new System.Drawing.Size(133, 29);
             this.btnAddPartition.TabIndex = 11;
@@ -172,17 +180,65 @@
             // 
             // txtAddPartition
             // 
-            this.txtAddPartition.Location = new System.Drawing.Point(474, 57);
+            this.txtAddPartition.Location = new System.Drawing.Point(493, 57);
             this.txtAddPartition.Name = "txtAddPartition";
             this.txtAddPartition.Size = new System.Drawing.Size(208, 27);
             this.txtAddPartition.TabIndex = 10;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(456, 57);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 27);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.InitialImage")));
+            this.pictureBox2.Location = new System.Drawing.Point(456, 141);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(31, 27);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 13;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox3.InitialImage")));
+            this.pictureBox3.Location = new System.Drawing.Point(456, 224);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(31, 27);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 14;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.InitialImage")));
+            this.pictureBox4.Location = new System.Drawing.Point(306, 20);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(40, 31);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 15;
+            this.pictureBox4.TabStop = false;
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(698, 366);
+            this.ClientSize = new System.Drawing.Size(709, 366);
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnAddPartition);
             this.Controls.Add(this.txtAddPartition);
             this.Controls.Add(this.btnBack);
@@ -194,6 +250,7 @@
             this.Controls.Add(this.txtAddFile);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -201,6 +258,10 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,5 +282,9 @@
         private ToolStripMenuItem cutToolStripMenuItem;
         private Button btnAddPartition;
         private TextBox txtAddPartition;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
     }
 }
