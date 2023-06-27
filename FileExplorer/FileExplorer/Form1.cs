@@ -108,6 +108,23 @@ namespace FileExplorer
             }
 
         }
+        public int GetIsDirectoryById(int id)
+        {
+            int isDirectory = 0;
+            string query = "SELECT IsDirectory FROM Files WHERE Id = @Id;";
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    isDirectory = Convert.ToInt32(result);
+                }
+            }
+            return isDirectory;
+        }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -125,7 +142,7 @@ namespace FileExplorer
             }
         }
 
-        private void decrease_size(int size)
+        private bool decrease_size(int size) //اگر مقدار خروجی تابع درست بود, یعنی عملیات انجام شد.
         {
             int availableSize = Convert.ToInt32(File.ReadAllText(sizePath));
 
@@ -133,11 +150,12 @@ namespace FileExplorer
             if (availableSize - size < 0)
             {
                 MessageBox.Show("There is not enough space.");
-                return;
+                return false;
             }
 
             //کم کردن حافظه
             File.WriteAllText(sizePath, (availableSize - size).ToString());
+            return true;
         }
 
         private void increase_size(int size)
@@ -197,11 +215,14 @@ namespace FileExplorer
                     }
                 }
 
+                if (!decrease_size(fileSize))
+                {
+                    return;
+                }
+
                 // اضافه کردن رکورد جدید به جدول
                 addToTable(fileName, 0, parentId);
 
-                //تخصیص حافظه
-                decrease_size(fileSize);
                 
                 // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
                 txtAddFile.Text = string.Empty;
@@ -315,6 +336,11 @@ namespace FileExplorer
                         {
                             currentLevel.Add(child);
                         }
+
+                        if (GetIsDirectoryById(currentNodeId) == 0)
+                        {
+                            increase_size(fileSize);
+                        }
                         DeleteRecord(currentNodeId);
 
                         while (currentLevel.Count > 0)
@@ -326,8 +352,12 @@ namespace FileExplorer
                                 {
                                     nextLevel.Add(child);
                                 }
+
                                 //اضافه کردن به حافظه در صورت فایل بودن
-                                
+                                if (GetIsDirectoryById(currentNodeId) == 0)
+                                {
+                                    increase_size(fileSize);
+                                }
                                 DeleteRecord(currentNodeId);
                             }
 
