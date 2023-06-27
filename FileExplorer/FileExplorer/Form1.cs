@@ -31,6 +31,7 @@ namespace FileExplorer
             {
                 parentIdHistory.Add(0);
             }
+
             // ایجاد اتصال به پایگاه داده SQLite
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -56,6 +57,7 @@ namespace FileExplorer
 
                 connection.Close();
             }
+
             foreach (DataGridViewRow row in this.dataGridView1.Rows)
             {
                 if (Convert.ToInt16(row.Cells[2].Value) == 0)
@@ -71,13 +73,11 @@ namespace FileExplorer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             // بارگزاری اسامی با parentId خالی در ابتدا
             LoadNamesWithParentId(0);
             dataGridView1.Columns["Id"].Visible = false;
-            dataGridView1.Columns["IsDirectory"].Visible = false; //db
+            dataGridView1.Columns["IsDirectory"].Visible = false; 
             dataGridView1.Columns["parentId"].Visible = false;
-
         }
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -86,10 +86,6 @@ namespace FileExplorer
             {
                 // استخراج آیدی از شناسه سطر کلیک شده
                 selectedId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
-
-                //MessageBox.Show("The row index = " + selectedId.ToString());
-                // نمایش اسامی مرتبط با آیدی استخراج شده
-                //LoadNamesWithParentId(selectedId);
             }
         }
 
@@ -103,16 +99,32 @@ namespace FileExplorer
                     // استخراج آیدی از شناسه سطر کلیک شده
                     selectedId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
 
-                    //MessageBox.Show("The row index = " + selectedId.ToString());
                     // اضافه کردن آیدی به تاریخچه parentId
                     parentIdHistory.Add(selectedId);
+
                     // نمایش اسامی مرتبط با آیدی استخراج شده
                     LoadNamesWithParentId(selectedId);
                 }
             }
 
         }
-
+        public int GetIsDirectoryById(int id)
+        {
+            int isDirectory = 0;
+            string query = "SELECT IsDirectory FROM Files WHERE Id = @Id;";
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    isDirectory = Convert.ToInt32(result);
+                }
+            }
+            return isDirectory;
+        }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -129,6 +141,31 @@ namespace FileExplorer
                 LoadNamesWithParentId(lastParentId);
             }
         }
+
+        private bool decrease_size(int size) //اگر مقدار خروجی تابع درست بود, یعنی عملیات انجام شد.
+        {
+            int availableSize = Convert.ToInt32(File.ReadAllText(sizePath));
+
+            //بررسی وجود فضای خالی
+            if (availableSize - size < 0)
+            {
+                MessageBox.Show("There is not enough space.");
+                return false;
+            }
+
+            //کم کردن حافظه
+            File.WriteAllText(sizePath, (availableSize - size).ToString());
+            return true;
+        }
+
+        private void increase_size(int size)
+        {
+            int availableSize = Convert.ToInt32(File.ReadAllText(sizePath));
+
+            //اضافه کردن حافظه
+            File.WriteAllText(sizePath, (availableSize + size).ToString());
+        }
+
         private void addToTable(string name, int directory, int parentId)
         {
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -146,7 +183,6 @@ namespace FileExplorer
                 // بستن اتصال
                 connection.Close();
             }
-
         }
         private void btnAddFile_Click(object sender, EventArgs e)
         {
@@ -154,14 +190,12 @@ namespace FileExplorer
             parentId = parentIdHistory[parentIdHistory.Count - 1];
             if (parentId == 0 || parentId == 1)
             {
-
                 MessageBox.Show("Can not add file or folder to ThisPC.");
                 txtAddFile.Text = string.Empty;
             }
             if (parentId > 1)
             {
                 string fileName = txtAddFile.Text.Trim();
-                int availableSize = Convert.ToInt32(File.ReadAllText(sizePath));
 
                 // بررسی وجود اسم خالی
                 if (string.IsNullOrEmpty(fileName))
@@ -169,15 +203,6 @@ namespace FileExplorer
                     MessageBox.Show("Please enter the file name.");
                     return;
                 }
-
-                //بررسی وجود فضای خالی
-                if (availableSize - fileSize < 0)
-                {
-                    MessageBox.Show("There is not enough space.");
-                    return;
-                }
-
-
 
                 // بررسی تکراری بودن اسم فایل
                 foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -190,33 +215,19 @@ namespace FileExplorer
                     }
                 }
 
+                if (!decrease_size(fileSize))
+                {
+                    return;
+                }
 
-
-                // ایجاد اتصال به پایگاه داده SQLite
+                // اضافه کردن رکورد جدید به جدول
                 addToTable(fileName, 0, parentId);
-                //using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-                //{
-                //    connection.Open();
 
-                //    // اجرای کوئری برای افزودن رکورد جدید
-                //    string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 0, @ParentId)";
-                //    SQLiteCommand command = new SQLiteCommand(query, connection);
-                //    command.Parameters.AddWithValue("@Name", fileName);
-                //    command.Parameters.AddWithValue("@ParentId", parentId);
-                //    command.ExecuteNonQuery();
-
-                //    // بستن اتصال
-                //    connection.Close();
-                //    txtAddFile.Text = string.Empty;
-                //}
-                //کم کردن حافظه
-                //File.WriteAllText(sizePath, (availableSize- fileSize).ToString());
-
+                
                 // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
                 txtAddFile.Text = string.Empty;
                 LoadNamesWithParentId(parentId);
             }
-
         }
 
         private void btnAddFolder_Click(object sender, EventArgs e)
@@ -225,7 +236,6 @@ namespace FileExplorer
             int parentId = parentIdHistory[parentIdHistory.Count - 1];
             if (parentId == 0 || parentId == 1)
             {
-
                 MessageBox.Show("Can not add file or folder to ThisPC.");
                 txtAddFile.Text = string.Empty;
             }
@@ -249,27 +259,10 @@ namespace FileExplorer
                         MessageBox.Show("The folder name is duplicate.");
                         return;
                     }
-                }
-
-
+                }   
 
                 // ایجاد اتصال به پایگاه داده SQLite
                 addToTable(folderName, 1, parentId);
-                //using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-                //{
-                //    connection.Open();
-
-                //    // اجرای کوئری برای افزودن رکورد جدید
-                //    string query = "INSERT INTO Files (Name, IsDirectory, ParentId) VALUES (@Name, 1, @ParentId)";
-                //    SQLiteCommand command = new SQLiteCommand(query, connection);
-                //    command.Parameters.AddWithValue("@Name", folderName);
-                //    command.Parameters.AddWithValue("@ParentId", parentId);
-                //    command.ExecuteNonQuery();
-
-                //    // بستن اتصال
-                //    connection.Close();
-                //    txtAddFolder.Text = string.Empty;
-                //}
 
                 // بارگزاری اسامی با parentId فعلی برای به‌روزرسانی DataGridView
                 txtAddFolder.Text = string.Empty;
@@ -301,19 +294,8 @@ namespace FileExplorer
 
                 connection.Close();
             }
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-
-                string deleteQuery = "DELETE FROM Files WHERE parentId = @Id";
-                SQLiteCommand command = new SQLiteCommand(deleteQuery, connection);
-                command.Parameters.AddWithValue("@Id", id);
-
-                command.ExecuteNonQuery();
-
-                connection.Close();
-            }
         }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
@@ -322,14 +304,12 @@ namespace FileExplorer
                 MessageBox.Show("Can not delete nothing!!");
                 return;
             }
-            if (parentId == 0 )
+            if (parentId == 0)
             {
-
                 MessageBox.Show("Can not delete ThisPC.");
                 return;
-                
             }
-            
+
             if (lastParentId > 0)
             {
                 if (selectedId != 0 && !string.IsNullOrEmpty(selectedName))
@@ -342,18 +322,56 @@ namespace FileExplorer
                     // نمایش پیغام هشدار و دریافت پاسخ کاربر
                     DialogResult result = MessageBox.Show($"Are you sure you want to delete the '{selectedName}'?",
                         "Warning: Deletion Alert.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
                     if (result == DialogResult.Yes)
                     {
-                        // حذف رکورد با آیدی مشخص شده
-                        DeleteRecord(selectedId);
+                        //گرفتن ایدی راس انتخاب شده
+                        int currentNodeId = selectedId;
+
+                        //ایجاد لیست برای پیمایش زیردرخت
+                        List<Dictionary<string, object>> currentLevel = new List<Dictionary<string, object>>();
+                        List<Dictionary<string, object>> nextLevel = new List<Dictionary<string, object>>();
+
+                        // پیمایش اول سطح
+                        foreach (Dictionary<string, object> child in children(currentNodeId))
+                        {
+                            currentLevel.Add(child);
+                        }
+
+                        if (GetIsDirectoryById(currentNodeId) == 0)
+                        {
+                            increase_size(fileSize);
+                        }
+                        DeleteRecord(currentNodeId);
+
+                        while (currentLevel.Count > 0)
+                        {
+                            foreach (Dictionary<string, object> node in currentLevel)
+                            {
+                                currentNodeId = Convert.ToInt32(node["Id"]);
+                                foreach (Dictionary<string, object> child in children(currentNodeId))
+                                {
+                                    nextLevel.Add(child);
+                                }
+
+                                //اضافه کردن به حافظه در صورت فایل بودن
+                                if (GetIsDirectoryById(currentNodeId) == 0)
+                                {
+                                    increase_size(fileSize);
+                                }
+                                DeleteRecord(currentNodeId);
+                            }
+
+                            currentLevel.Clear();
+                            foreach (Dictionary<string, object> node in nextLevel)
+                            {
+                                currentLevel.Add(node);
+                            }
+                            nextLevel.Clear();
+                        }
 
                         // بروزرسانی جدول DataGridView
                         LoadNamesWithParentId(parentId);
                     }
-
-                    //اضافه کردن حافظه todo
-
                 }
             }
         }
@@ -381,7 +399,6 @@ namespace FileExplorer
             int destinationParentId = lastParentId;
             if (lastParentId == 0 || lastParentId == 1)
             {
-
                 MessageBox.Show("Can not paste file or folder to ThisPC.");
                 txtAddFile.Text = string.Empty;
             }
@@ -389,8 +406,6 @@ namespace FileExplorer
             {
                 if (isCutMode)
                 {
-
-                    //MessageBox.Show(selectedNamecut); //db
                     // شرط اول: بررسی تکراری بودن اسم قبل از انجام عملیات پیست
                     bool isDuplicateName = CheckDuplicateName(selectedNamecut);
 
@@ -405,11 +420,8 @@ namespace FileExplorer
                     isCutMode = false;
                     LoadNamesWithParentId(lastParentId);
                 }
-                //MessageBox.Show($"{isCopyMode}"); //db
                 if (isCopyMode)
                 {
-
-                    //MessageBox.Show("incopy");
                     bool isDuplicateName = CheckDuplicateName(selectedNamecut);
 
                     if (isDuplicateName)
@@ -417,15 +429,15 @@ namespace FileExplorer
                         MessageBox.Show("There is a duplicate name. Paste operation is not possible.");
                         return;
                     }
+
+                    //پیمایش اول سطح زیر درخت با ریشه ایدی past شده
                     Dictionary<int, int> equivalentPairs = new Dictionary<int, int>();
 
                     int currentNodeId = selectedIdcut;
-
                     
                     int lastrowid = addToTable_copy(selectedNamecut,selectedIsDirectory, destinationParentId);
                     equivalentPairs[currentNodeId] = lastrowid; // متناظر سازی نود قبلی با نود ایجاد شده
 
-                    //MessageBox.Show(lastrowid.ToString()); //db
                     List<Dictionary<string, object>> nodelist = new List<Dictionary<string, object>>();
                     List<Dictionary<string, object>> partlist = new List<Dictionary<string, object>>();
 
@@ -439,7 +451,6 @@ namespace FileExplorer
                     {
                         foreach (Dictionary<string, object> node in nodelist)
                         {
-                            //MessageBox.Show(node["Name"].ToString());
                             //دریافت ایدی راس دیده شده
                             currentNodeId = Convert.ToInt32(node["Id"]);
 
@@ -453,7 +464,6 @@ namespace FileExplorer
                             {
                                 partlist.Add(child);
                             }
-
                         }
 
                         nodelist.Clear();
@@ -464,10 +474,8 @@ namespace FileExplorer
                         }
                         partlist.Clear();
                     }
-
                     isCopyMode = false;
                     LoadNamesWithParentId(lastParentId);
-
                 }
             }
         }
@@ -494,7 +502,6 @@ namespace FileExplorer
                 connection.Close();
             }
             return (int)lastrowid;
-
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -510,7 +517,6 @@ namespace FileExplorer
                 {
                     // خواندن Id سلول از DataGridView
                     selectedNamecut = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    //MessageBox.Show(selectedName); //db
                     selectedIdcut = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value);
                     int parentId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[3].Value);
                     selectedIsDirectory = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[2].Value);
@@ -531,20 +537,6 @@ namespace FileExplorer
         }
         private bool CheckDuplicateName(string name)
         {
-            //int lastParentId = parentIdHistory[parentIdHistory.Count - 1];
-            //LoadNamesWithParentId(lastParentId);
-            /*dataGridView1.Refresh()*/
-            ;
-            //for(int item = 0;item < dataGridView1.Rows.Count;item++)
-            //{
-            //    string existingFileName = dataGridView1.Rows[item].Cells["Name"].Value.ToString();
-            //    if (name == existingFileName)
-            //    {
-
-            //        return true;
-            //    }
-            //}
-            //return false;
             foreach (DataGridViewRow row in this.dataGridView1.Rows)
             {
                 if (name == row.Cells[1].Value.ToString())
@@ -553,7 +545,6 @@ namespace FileExplorer
                 }
             }
             return false;
-
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -571,10 +562,8 @@ namespace FileExplorer
         }
         private void txtAddFile_TextChanged(object sender, EventArgs e)
         {
-
-
         }
-        private List<Dictionary<string, object>> children(int id) // Name, IsDirectory, parentId, Id
+        private List<Dictionary<string, object>> children(int id)
         {
             LoadNamesWithParentId(id);
             List<Dictionary<string, object>> rowDataList = new List<Dictionary<string, object>>();
@@ -629,84 +618,11 @@ namespace FileExplorer
                     }
                 }
 
-
-
-                // ایجاد اتصال به پایگاه داده SQLite
+                // ایجاد رکورد جدید
                 addToTable(folderName, 1, 1);
                 txtAddPartition.Text = string.Empty;
                 LoadNamesWithParentId(parentId);
             }
-
         }
-
-
-        /*
-        private void copyToTable(int startingID, int copyParent)
-        {
-
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-
-                using (SQLiteTransaction transaction = connection.BeginTransaction())
-                {
-                    // کوئری کپی کردن گره‌ها
-                    string copyQuery = @"
-                WITH RECURSIVE rCTE AS (
-                  SELECT Id,
-                         Name,                                                 
-                         IsDirectory,
-                         parentId,
-                         1 AS Level
-                  FROM Files
-                  WHERE Id = @StartingID
-                  UNION ALL
-                  SELECT D.Id,
-                         D.Name,
-                         D.IsDirectory,
-                         D.parentId,
-                         r.Level+1
-                  FROM Files D
-                  JOIN rCTE r ON D.parentId = r.Id
-                )
-                INSERT INTO Files (Name,IsDirectory,parentId)
-                SELECT CASE r.Id WHEN @StartingID THEN @CopyParent ELSE k.NewID END AS parentId,
-                       r.Name,
-                       r.IsDirectory
-                FROM rCTE r
-                LEFT JOIN (
-                  SELECT Id,
-                         MAX(Level) AS NewID
-                  FROM rCTE
-                  GROUP BY Id
-                ) k ON r.Id = k.Id
-                WHERE r.Level > 1;";
-
-                    using (SQLiteCommand copyCommand = new SQLiteCommand(copyQuery, connection, transaction))
-                    {
-                        copyCommand.Parameters.AddWithValue("@StartingID", startingID);
-                        copyCommand.Parameters.AddWithValue("@CopyParent", copyParent);
-                        copyCommand.ExecuteNonQuery();
-                    }
-
-                    // کوئری بروزرسانی parentId ها
-                    string updateQuery = @"
-                UPDATE Files
-                SET parentId = CASE WHEN parentId = @StartingID THEN @CopyParent ELSE parentId END
-                WHERE Id <> @StartingID;";
-
-                    using (SQLiteCommand updateCommand = new SQLiteCommand(updateQuery, connection, transaction))
-                    {
-                        updateCommand.Parameters.AddWithValue("@StartingID", startingID);
-                        updateCommand.Parameters.AddWithValue("@CopyParent", copyParent);
-                        updateCommand.ExecuteNonQuery();
-                    }
-
-                    transaction.Commit();
-                }
-            }
-
-        }
-        */
     }
 }
