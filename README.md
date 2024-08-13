@@ -1,6 +1,7 @@
 # File Explorer
 Project Overview
 This project, titled File Explorer, is a simple file management application developed using the C# programming language. It was created as part of the Data Structures course at Shahid Bahonar University of Kerman, under the supervision of Dr. Saeed. The primary goal of this project was to implement a basic file explorer with fundamental file management capabilities.
+![image](https://github.com/user-attachments/assets/c3444cc4-67bb-4c95-a8b1-1fe20a3056a4)
 
 ## Features
 Hierarchical Structure: View files and folders in a structured, tree-like hierarchy.
@@ -18,9 +19,13 @@ The project was developed using a phased development approach. Initially, the ba
 
 ## Main Challenge
 One of the main challenges of this project was implementing a tree data structure to represent the hierarchy of files and folders and then saving this structure as a table in the SQLite database. This involved carefully designing the database schema to support a dynamic tree structure, enabling efficient storage and retrieval of hierarchical data.
+![Screenshot-2022-04-24-at-10](https://github.com/user-attachments/assets/6cbbb262-7376-430b-aa62-2fde84121aaf)
 
 ## Feasibility Analysis
 The feasibility study for this project indicated that the overall complexity was moderate, with the main challenge being the unfamiliarity with Windows Forms and the SQLite database. However, the project's scope was kept manageable, focusing on core functionalities to ensure timely completion.
+
+## Achievement
+This project was the top-performing project of the term, earning the highest score in the Data Structures course. The implementation quality and innovative solutions contributed to its recognition as the best project.
 
 ## How to Run the Project
 To run this project, clone the repository using the following command:
@@ -35,3 +40,9 @@ Special thanks to [Amirhossein](https://github.com/AmirAAZ818) for his invaluabl
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## use-case diagram:
+![image](https://github.com/user-attachments/assets/ee180115-f0cc-46b0-984d-b301612ead02)
+
+
+
