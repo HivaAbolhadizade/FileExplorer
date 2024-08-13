@@ -1,6 +1,8 @@
 # File Explorer
 Project Overview
 This project, titled File Explorer, is a simple file management application developed using the C# programming language. It was created as part of the Data Structures course at Shahid Bahonar University of Kerman, under the supervision of Dr. Saeed. The primary goal of this project was to implement a basic file explorer with fundamental file management capabilities.
+
+
 <img src="https://github.com/user-attachments/assets/c3444cc4-67bb-4c95-a8b1-1fe20a3056a4" alt="description" width="400"/>
 
 ## Features
