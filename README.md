@@ -5,6 +5,9 @@ This project, titled File Explorer, is a simple file management application deve
 
 <img src="https://github.com/user-attachments/assets/c3444cc4-67bb-4c95-a8b1-1fe20a3056a4" alt="description" width="400"/>
 
+## Achievement
+This project was the top-performing project of the term, earning the highest score in the Data Structures course. The implementation quality and innovative solutions contributed to its recognition as the best project.
+
 ## Features
 Hierarchical Structure: View files and folders in a structured, tree-like hierarchy.
 Create Files and Folders: Ability to create new files and folders within the file system.
@@ -25,9 +28,6 @@ One of the main challenges of this project was implementing a tree data structur
 
 ## Feasibility Analysis
 The feasibility study for this project indicated that the overall complexity was moderate, with the main challenge being the unfamiliarity with Windows Forms and the SQLite database. However, the project's scope was kept manageable, focusing on core functionalities to ensure timely completion.
-
-## Achievement
-This project was the top-performing project of the term, earning the highest score in the Data Structures course. The implementation quality and innovative solutions contributed to its recognition as the best project.
 
 ## How to Run the Project
 To run this project, clone the repository using the following command:
